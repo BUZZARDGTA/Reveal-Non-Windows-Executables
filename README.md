@@ -5,9 +5,10 @@
 > Display running executables that are not present in %SystemDrive% folder.
 
 *Known Bug*:
-> * Some "non windows" executable can still be present
-> in %SystemDrive% folder and wont reveal.
+> * The "non windows" executables that are present
+> in %SystemDrive% folder wont reveal.
 > * Results can get duplicated if they have different parent processes.
+
 
 *Credits*:
 > @Grub4K - Creator of the padding CLI algorithm.
