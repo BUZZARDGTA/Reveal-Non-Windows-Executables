@@ -5,7 +5,7 @@
 
 *Showcase*:
 
-<img src="https://user-images.githubusercontent.com/62464560/148978470-56c16424-7583-41f7-940a-0bf40f0a2272.png" width="80%" height="60%">
+> <img src="https://user-images.githubusercontent.com/62464560/148978470-56c16424-7583-41f7-940a-0bf40f0a2272.png" width="80%" height="60%">
 
 *Known Bug*:
 > * The "non windows" executables that are present
