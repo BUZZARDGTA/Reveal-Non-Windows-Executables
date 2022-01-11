@@ -5,6 +5,12 @@
 :: DESCRIPTION
 ::     Display running executables that are not present in %SystemDrive% folder.
 ::
+:: KNOWN BUGS
+::  The "non windows" executables that are present
+::  in %SystemDrive% folder wont reveal.
+::
+::  Results can get duplicated if they have different parent processes.
+::
 :: AUTHOR
 ::     IB_U_Z_Z_A_R_Dl
 ::
