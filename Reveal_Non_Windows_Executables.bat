@@ -29,25 +29,45 @@ echo:
     start /b mshta vbscript:Execute^("msgbox ""To obtain the best results, you should run this script as administrator..."",69680,""%~nx0"":close"^)
 )
 
-for /f "skip=1tokens=2*delims=," %%A in ('2^>nul wmic process get Description^,ExecutablePath /format:csv') do (
-    set "executable_path=%%~B"
-    set "executable_path=!executable_path:~0,-1!"
-    if defined executable_path (
-        set "executable_path=!executable_path!"
-        if /i not "!executable_path!"=="!memory!" (
-            if /i not "!executable_path:~0,11!"=="%SystemRoot%\" (
-                if /i not "!executable_path:~0,15!"=="\\?\%SystemRoot%\" (
-                    set "Display_Padding=%%~nxA"
-                    if "!Display_Padding:~0,20!"=="!Display_Padding!" (
-                        set "Display_Padding=!Display_Padding!                    "
-                        set "Display_Padding=!Display_Padding:~0,20!"
+set executable_counter=0
+for /f "delims=" %%A in ('2^>nul wmic process get Description^,ExecutablePath /value') do (
+    set "x=%%~A"
+    if defined x (
+        if "!x:~0,12!"=="Description=" (
+            set "description=!x:~12,-1!"
+        ) else if "!x:~0,15!"=="ExecutablePath=" (
+            set "executablepath=!x:~15,-1!"
+        )
+        if defined description (
+            if defined executablepath (
+                if not defined memory_!executablepath! (
+                        if /i not "!executablepath:~0,11!"=="%SystemRoot%\" (
+                            if /i not "!executablepath:~0,15!"=="\\?\%SystemRoot%\" (
+                                set /a executable_counter+=1
+                                set "memory_!executablepath!=1"
+                                set "display_padding=!description!"
+                                if "!display_padding:~0,20!"=="!display_padding!" (
+                                    set "display_padding=!display_padding!                    "
+                                    set "display_padding=!display_padding:~0,20!"
+                                )
+                                set "line_!executable_counter!=!display_padding! | !executablepath!"
+                            )
+                        )
                     )
-                    set "memory=!executable_path!"
-                    echo !Display_Padding!  ^|  !executable_path!
                 )
             )
         )
     )
+)
+for /l %%A in (1,1,!executable_counter!) do (
+    if %%A lss 10 (
+        set "display_padding=  "
+    ) else if %%A lss 100 (
+        set "display_padding= "
+    ) else if %%A lss 1000 (
+        set display_padding=
+    )
+    echo !display_padding!%%A ^| !line_%%A!
 )
 
 echo:
